@@ -16,10 +16,19 @@ class Question(models.Model):
     # 모델의 변경사항
     # is_something = models.BooleanField(default=False)
     # average_score = models.FloatField(default=0.0)
+    # score = models.FloatField(default=0)
+    # is_something_wrong = models.BooleanField(default=False)
+    # json_field = models.JSONField(default=dict)
+
+
+    def __str__(self):
+        return f'제목: {self.question_text}, 날짜: {self.pub_date}'
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
     # 모델 생성 완료
-# 다음은 마이그레이션 만들기 
+    
+    def __str__(self):
+        return f'{self.choice_text}'
