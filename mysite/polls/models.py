@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+import datetime
 
 # Create your models here.
 # 모델 생성
@@ -20,9 +22,15 @@ class Question(models.Model):
     # is_something_wrong = models.BooleanField(default=False)
     # json_field = models.JSONField(default=dict)
 
-
+    def was_published_recently(self):
+        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+    
     def __str__(self):
-        return f'제목: {self.question_text}, 날짜: {self.pub_date}'
+        if self.was_published_recently():
+            new_badge = 'NEW!!!'
+        else:
+            new_badge = ''
+        return f'{new_badge} 제목: {self.question_text}, 날짜: {self.pub_date}'
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -30,6 +38,6 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
     # 모델 생성 완료
     
-    
+
     def __str__(self):
-        return f'{self.choice_text}'
+        return f'[{self.question.question_text}] / {self.choice_text}'
