@@ -30,5 +30,6 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
     # 모델 생성 완료
     
+    
     def __str__(self):
         return f'{self.choice_text}'
