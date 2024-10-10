@@ -1,5 +1,5 @@
 <ul>
-    <li>{{question.0}}</li>
-    <li>{{question.1}}</li>
-    <li>{{question.2}}</li>
+    {% for question in questions %}
+        <li>{{question}}</li>
+    {% endfor %}
 <ul>
