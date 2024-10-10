@@ -1,4 +1,4 @@
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse #, Http404
 from .models import *
 from django.shortcuts import render, get_object_or_404
  
@@ -17,6 +17,7 @@ def detail(request, question_id):
     # except Question.DoesNotExist:
     #     raise Http404("Question does not exist")
     question = get_object_or_404(Question, pk=question_id)
+
     return render(request, 'polls/detail.html', {'question': question})
     #return HttpResponse(f"입력받은 id: {question_id}")
 
