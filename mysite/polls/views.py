@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    context = {'question': latest_question_list}
+    context = {'questions': latest_question_list}
     # context = {'first_question': latest_question_list[0]}
     return render(request, 'polls/index.html', context)
 
