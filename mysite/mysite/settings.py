@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',  # Django REST Framework 없으면 GET 실습불가
+    #'polls_api',  # polls_api 앱이 별도로 있을 경우 추가
+
 
 ]
 
