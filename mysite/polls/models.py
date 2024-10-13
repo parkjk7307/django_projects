@@ -15,6 +15,8 @@ from django.contrib import admin
 class Question(models.Model):
     question_text = models.CharField(max_length=200, verbose_name='질문')
     pub_date = models.DateTimeField(auto_now_add=True, verbose_name='생성일') # auto_now_add 퀘스찬이 처음 생길때 시간을 add한다.
+    owner = models.ForeignKey('auth.User', related_name='questions', on_delete=models.CASCADE, null=True)
+    # owner가 Question의 여러개를 포함하고 있다.
     # 모델의 변경사항
     # is_something = models.BooleanField(default=False)
     # average_score = models.FloatField(default=0.0)
@@ -37,7 +39,7 @@ class Choice(models.Model):
     choice_text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
     # 모델 생성 완료
-    
+    # question이 Choice 여러개를 포함하고 있다.
 
     def __str__(self):
         return f'[{self.question.question_text}] / {self.choice_text}'
