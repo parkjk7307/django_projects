@@ -1,11 +1,11 @@
 from polls.models import Question
 from polls_api.serializers import QuestionSerializer
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework import status
-from django.shortcuts import get_object_or_404
-from rest_framework.views import APIView
-from rest_framework import mixins
+# from rest_framework.response import Response
+# from rest_framework.decorators import api_view
+# from rest_framework import status
+# from django.shortcuts import get_object_or_404
+# from rest_framework.views import APIView
+# from rest_framework import mixins
 from rest_framework import generics
 # @api_view(['GET','POST']) # question_list가 get 요청을 처리할 것이다 라는 의미
 # def question_list(request):
@@ -76,30 +76,43 @@ from rest_framework import generics
 #         question.delete()
 #         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class QuestionList(mixins.ListModelMixin,
-                    mixins.CreateModelMixin,
-                    generics.GenericAPIView):
+# class QuestionList(mixins.ListModelMixin,
+#                     mixins.CreateModelMixin,
+#                     generics.GenericAPIView):
+#     queryset = Question.objects.all()
+#     serializer_class = QuestionSerializer
+
+#     def get(self, request, *args, **kwargs):
+#         return self.list(request, *args, **kwargs)
+
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request, *args, **kwargs)
+
+# class QuestionDetail(mixins.RetrieveModelMixin,
+#                     mixins.UpdateModelMixin,
+#                     mixins.DestroyModelMixin,
+#                     generics.GenericAPIView):
+#     queryset = Question.objects.all()
+#     serializer_class = QuestionSerializer
+
+#     def get(self, request, *args, **kwargs):
+#         return self.retrieve(request, *args, **kwargs)
+
+#     def put(self, request, *args, **kwargs):
+#         return self.update(request, *args, **kwargs)
+
+#     def delete(self, request, *args, **kwargs):
+#         return self.destroy(request, *args, **kwargs)
+
+
+from polls.models import Question
+from polls_api.serializers import QuestionSerializer
+from rest_framework import generics
+
+class QuestionList(generics.ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-class QuestionDetail(mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    generics.GenericAPIView):
+class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
