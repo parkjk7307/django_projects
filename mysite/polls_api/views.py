@@ -106,13 +106,36 @@ from rest_framework import generics
 
 
 from polls.models import Question
-from polls_api.serializers import QuestionSerializer
-from rest_framework import generics
+from polls_api.serializers import QuestionSerializer, UserSerializer
+from rest_framework import generics, permissions
+from django.contrib.auth.models import User
+from polls_api.serializers import RegisterSerializer
+from .permissions import IsOwnerOrReadOnly
 
 class QuestionList(generics.ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+
 
 class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class RegisterUser(generics.CreateAPIView): # Serializer를 사용하여 User 생성하기
+    serializer_class = RegisterSerializer
