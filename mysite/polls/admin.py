@@ -1,9 +1,6 @@
 from django.contrib import admin
 from .models import *
 
-# Register your models here.
-
-admin.site.register(Choice)
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
@@ -18,5 +15,8 @@ class QuestionAdmin(admin.ModelAdmin):
     ]
     readonly_fields = ['pub_date'] # model.py에 적혀있는 에러 해결법 auto_now_add=True
     inlines = [ChoiceInline]
+    list_display = ('question_text','pub_date','was_published_recently')
+    search_fields = ['question_text', 'choice__choice_text']
+    list_filter = ['pub_date']
 
 admin.site.register(Question, QuestionAdmin)
